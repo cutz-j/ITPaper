@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=2296
-NormalPos.bottom=789
+NormalPos.right=1562
+NormalPos.bottom=826
 Class=LaTeXView
 Document=bare_jrnl_compsoc.tex
 
 [Frame0_View0,0]
-TopLine=747
-Cursor=30869
+TopLine=545
+Cursor=23432
 
 [SessionInfo]
 FrameCount=1
