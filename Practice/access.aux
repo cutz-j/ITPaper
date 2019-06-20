@@ -1,0 +1,68 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {I}You Only Look Once: Unified, Real-Time Object Detection}{1}\protected@file@percent }
+\newlabel{sec:You Only Look Once: Unified, Real-Time Object Detection}{{I}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {I-A}}Paper main Theme}{1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  The YOLO Detection System.} Processing images with YOLO is simple and straightforward. Their system (1) resizes the input images to 448 x 448, (2) runs a single convolutional network on the image, and (3) thresholds the resulting detections by the model's confidence.\relax }}{1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:figure1}{{1}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {I-B}}Papers main idea or proposed idea}{2}\protected@file@percent }
+\newlabel{equation1}{{1}{2}}
+\newlabel{equation2}{{2}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {I-C}}Results and discussions}{2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Model combination experiments on VOC 2007.} They examine the effect of combining various models with the best version of Fast R-CNN provide only a small benefit while YOLO provides a significant performance boost.\relax }}{2}\protected@file@percent }
+\newlabel{Table_1}{{1}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}YOLO9000: Better, Faster, Stronger}{2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}Paper main Theme}{2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  The Architecture.} Their detection network has 24 convolutional layers followed by 2 fully connected layers. Alternating 1 x 1 convolutional layers reduce the features space from preceding layers. They pretrain the convolutional layers on the ImageNet classification task at half the resolution (224 x 224 input image) and then double the resolution for detection.\relax }}{3}\protected@file@percent }
+\newlabel{fig:figure2}{{2}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Papers main idea or proposed idea}{3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Clustering box dimensions on VOC and COCO.} They run k-means clustering on the dimensions of bounding boxes to get good priors for their model. The left image shows the average IOU they get with various choices for k. They find that k = 5 gives a good tradeoff for recall vs. complexity of the model. The right image shows the relative centroids for VOC and COCO. Both sets of priors favor thinner, taller boxes while COCO has greater variation in size than VOC.\relax }}{4}\protected@file@percent }
+\newlabel{fig:figure3}{{3}{4}}
+\newlabel{equation3}{{3}{4}}
+\newlabel{equation4}{{4}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Darknet-19.}\relax }}{4}\protected@file@percent }
+\newlabel{Table_2}{{2}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Combining datasets using WordTree hierarchy.} Using the WordNet concept graph we build a hierarchical tree of visual concepts. Then they can merge datasets together by mapping the classes in the dataset to synsets in the tree. This is a simplified view of WordTree for illustration purposes.\relax }}{5}\protected@file@percent }
+\newlabel{fig:figure4}{{4}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-C}}Results and discussions}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}YOLOv3: An Incremental Improvement}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Paper main Theme}{5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Bounding boxes with dimension priors and location prediction.} They predict the width and height of the box as offsets from cluster centroids. We predict the center coordinates of the box relative to the location of filter application using a sigmoid function. This figure blatantly self-plagiarized from.\relax }}{5}\protected@file@percent }
+\newlabel{fig:figure5}{{5}{5}}
+\newlabel{equation5}{{5}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Papers main idea or proposed idea}{5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Comparison of backbones.} Accuracy, billions of operations, billion floating point operations per second, and FPS for various networks.\relax }}{6}\protected@file@percent }
+\newlabel{Table_3}{{3}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-C}}Results and discussions}{6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}SSD: Single Shot MultiBox Detector}{6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Paper main Theme}{6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Again adapted from the, this time displaying speed/accuracy tradeoff on the mAP at $.5$ IOU metric. You can tell YOLOv3 is good because it\IeC {\textquoteright }s very high and far to the left. They also fix a data loading bug in YOLOv2, that helped by like 2 mAP.\relax }}{7}\protected@file@percent }
+\newlabel{fig:figure6}{{6}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Papers main idea or proposed idea}{7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  SSD framework.} (a) SSD only needs an input image and ground truth boxes for each object during training. In a convolutional fashion, they evaluate a small set of default boxes of different aspect ratios at each location in several feature maps with different scales (e.g. 8 \IeC {\texttimes } 8 and 4 \IeC {\texttimes } 4 in (b) and (c)). For each default box, they predict both the shape offsets and the confidences for all object categories (($c_1$, $c_2$, \IeC {\textperiodcentered } \IeC {\textperiodcentered } \IeC {\textperiodcentered } , $c_p$)). At training time, they first match these default boxes to the ground truth boxes. For example, they have matched two default boxes with the cat and one with the dog, which are treated as positives and the rest as negatives. The model loss is a weighted sum between localization loss (e.g. Smooth L1) and confidence loss (e.g. Softmax).\relax }}{8}\protected@file@percent }
+\newlabel{fig:figure7}{{7}{8}}
+\newlabel{equation6}{{6}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-C}}Results and discussions}{8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  Results on Pascal VOC2007 test.} SSD300 is the only real-time detection method that can achieve above 70\% mAP. By using a larger input image, SSD512 outperforms all methods on accuracy while maintaining a close to real-time speed.\relax }}{8}\protected@file@percent }
+\newlabel{Table_4}{{4}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces A comparison between two single shot detection models: SSD and YOLO. Their SSD model adds several feature layers to the end of a base network, which predict the offsets to default boxes of different scales and aspect ratios and their associated confidences. SSD with a 300 \IeC {\texttimes } 300 input size significantly outperforms its 448 \IeC {\texttimes } 448 YOLO counterpart in accuracy on VOC2007 test while also improving the speed.\relax }}{9}\protected@file@percent }
+\newlabel{fig:figure8}{{8}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Paper main Theme}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}Papers main idea or proposed idea}{9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces The standard convolutional filters in $(a)$ are replaced by two layers: depthwise convolution in $(b)$ and pointwise convolution in $(c)$ to build a depthwise separable filter.\relax }}{10}\protected@file@percent }
+\newlabel{fig:figure9}{{9}{10}}
+\newlabel{equation7}{{7}{10}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces MobileNet Body Architecture\relax }}{10}\protected@file@percent }
+\newlabel{Table_5}{{5}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  Example objection detection results using MobileNet SSD.\relax }}{10}\protected@file@percent }
+\newlabel{fig:figure10}{{10}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}Results and discussions}{10}\protected@file@percent }
+\bibcite{b1}{1}
+\bibcite{b2}{2}
+\bibcite{b3}{3}
+\bibcite{b4}{4}
+\bibcite{b5}{5}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{REFERENCES}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Hyeon Seong Jeon}{11}\protected@file@percent }
