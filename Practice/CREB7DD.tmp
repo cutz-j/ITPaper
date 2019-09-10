@@ -1,0 +1,287 @@
+\documentclass{ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{caption}
+\captionsetup{labelfont = sc, textfont = it}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+\history{Data of publication 2019.6.20.}
+\doi{10.1109/ACCESS.2017.DOI}
+
+\title{Object Detection rivalry: Yolo vs SSD}
+\author{\uppercase{Hyeon~Seong~Jeon}\authorrefmark{1},
+\uppercase {Shin~Sun~Kim}\authorrefmark{2}, {and~MUHAMMAD~MANNAN~SAEED*}.\authorrefmark{3},
+\IEEEmembership{Member, IEEE}}
+\address[1]{Artificial Intelligence, SungKyunKwan University, 16419, Suwon, South Korea (e-mail: cutz@skku.edu)}
+\address[2]{Department of Electrical and Electronic Engineering, SungKyunKwan University, 16419, Suwon, South Korea (e-mail: ssk@skku.edu)}
+\address[3]{Department of Electrical and Electronic Engineering, SungKyunKwan University, 16419, Suwon, South Korea (e-mail: mannan@skku.edu)}
+
+\markboth
+{Author \headeretal: Preparation of Papers for IEEE TRANSACTIONS and JOURNALS}
+{Author \headeretal: Preparation of Papers for IEEE TRANSACTIONS and JOURNALS}
+
+\corresp{Corresponding author: Third Author (e-mail: mannan@skku.edu).}
+
+\begin{abstract}
+YOLO and SSD are popular Convolution Neural Networks for Real-Time Object Detection with Deep Learning. You Only Look Once: Unified, Real-Time Object Detection revolutionized the algorithms proposed by the traditional end-to-end region proposal method, accelerating object detection speed. They introduced the grid cell method, which divided the input into 49 zones of 7x7. YOLOv2, YOLO9000: Better, Faster, Stronger, they tried to modify the lower recall of the original first version. And they introduced anchor box, and they raised the recall without sacrificing speed. Batch Normalization was applied to the Convolutional Neural network and Multi-Scale Training was used to classify 9000 classes. YOLOv3: An Included Implementation, stabilizes the performance of existing YOLOV2. They spread the use of YOLO, specifying what users should be careful about when learning model. In contrast, SSD: Single Shot MultiBox Detector similarly achieved real-time object detection, but it used a different approach than YOLO. They used aspect ratio method to reduce the cost of region proposal. And using the existing popular VGG16 Architecture, they've increased our popularity. MobileNets: Efficient Constructive Neural Networks for Mobile Vision Applications is an archive of the Converged Neural Network. It's not an object detection, but it's been synthesized with SSD recently, so it's very fast. MobileNets introduced channels-wise parameters and spacial-wise parameters, effectively reducing parameters in network.
+\end{abstract}
+
+\begin{keywords}
+Real-time Object Detection, Convolutional Neural Network
+\end{keywords}
+
+\titlepgskip=-15pt
+
+\maketitle
+
+\section{You Only Look Once: Unified, Real-Time Object Detection}
+\label{sec:You Only Look Once: Unified, Real-Time Object Detection}
+\subsection{Paper main Theme}
+This paper, you only look once (YOLO), is an improved model of end-to-end Convolution Neural Network (CNN), RCNN and fast-RCNN for past region proposal. Conventional sliding window method ensured accuracy, but it had a significantly slower speed disadvantage. YOLO changed the region proposal method to grid cell method enabling detection in real time. They divided the input image into 7x7 grid cells, performing object detection in the 49 proposed areas. In this way, YOLO can process images every 45 frames per a second. YOLO calculates the input image by single CNN for bounding boxes coordinates and class probabilities at the same time. This integrated model has several advantages over traditional methods. Figure \ref{fig:figure1} shows this simple process.
+
+\begin{figure}
+	\centering
+		\includegraphics[width=0.47\textwidth]{D:/lecture/ITpaper/Access-Template/figure1.eps}
+	\caption{\textbf{The YOLO Detection System.} Processing images with YOLO is simple and straightforward. Their system (1) resizes the input images to 448 x 448, (2) runs a single convolutional network on the image, and (3) thresholds the resulting detections by the model's confidence.}
+	\label{fig:figure1}
+\end{figure}
+
+First, YOLO is extremely fast. The problem of obtaining the coordinates of the bounding box representing an object was to be optimized by combining the probability of the class with one. Even the Fast YOLO version achieved 150 fps in Titan X GPU environment. Even at this rate, they recorded twice as many precisions as the real-time object detection model at the time.
+Second, YOLO model makes unseparated global inference. This way, they accelerated model speed at the implementation stage, using the C-language-based DarkNet framework that was created by the researchers themselves.
+Third, YOLO learns generalizable representations of objects. When trained on natural images and tested on artwork, YOLO outperforms top detection methods like DPM and R-CNN by a wide margin. Since YOLO is highly generalizable it is less likely to break down when applied to new domains or unexpected outputs.
+
+
+\subsection{Papers main idea or proposed idea}
+They unify the separate components of object detection into a single neural network, end-to-end model. Their network uses features from the entire image to predict each bounding box and class probabilities. This means their network reasons globally about the full image and all the objects in the image.
+Their system divides the input image into an S x S grid. They usually use 7 x 7 grid. If the center of an object falls into a grid cell, that grid cell is responsible for detecting that object. Each grid cell predicts B bounding boxes and confidence scores. They use intersection over union (IOU) to predict exact object. Formally, they define confidence as Pr(Object) * IOU. Each bounding box consists of 5 predictions: \textit{x, y, w, h}, and confidence. \eqref{eqaution1} shows this confidence.
+
+\begin{equation}
+	\label{equation1}
+	\resizebox{.9\hsize}{!}{ \textit{Pr(Class_i}|Object) \ *\ Pr(Object)\ *\ IOU_{pred}^{truth} = Pr(Class_i)\ *\ IOU_{pred}^{truth}}
+\end{equation}
+
+Their network architecture i inspired by the GoogLeNet model for image classification. Their network has 24 convolutional layers followed by 2 fully connected layers. However, they simply use 1 x 1 reduction layers followed by 3 x 3 convolutional layers. The full network is shown in Figure \ref{fig:figure2}. Their final output is the 7 x 7 x 30 tensor of predictions.
+
+\begin{figure*}
+	\centering
+		\includegraphics[width=1.00\textwidth]{D:/lecture/ITpaper/Access-Template/figure2.eps}
+		\caption{\textbf{The Architecture.} Their detection network has 24 convolutional layers followed by 2 fully connected layers. Alternating 1 x 1 convolutional layers reduce the features space from preceding layers. They pretrain the convolutional layers on the ImageNet classification task at half the resolution (224 x 224 input image) and then double the resolution for detection.}
+	\label{fig:figure2}
+\end{figure*}
+
+They pretrain their convolutional layers on the ImageNet 1000-class competition dataset. for pretraining they use the first 20 convolutional layers from Figure \ref{fig.figure2} followed by a average-pooling layer and a fully connectec layer. They then convert the model to perform detection. Detection often requires fine-grained visual information so they increase the input resolution of the network from 224 x 224 to 448 x 448.
+Their final layer predicts both class probabilities and bounding box coordinates. They normalize the bounding box width and height by the image width and height so that they fall between 0 and 1. We parametrize the bounding box x and y coordinates to be offsets of a particular grid cell location so they are also bounded between 0 and 1. They use a linear activation function for the final layer and all other layers use the following leaky rectified linear activation:
+
+\begin{equation}
+	\label{equation2}
+	 \phi(x) \ = \ \begin{cases} x, \ \ \ \ \ \ \ \  if \ x \ > \ 0 \\ 
+	0.1x, \ \ \  otherwise
+	\end{cases}
+\end{equation}
+
+They use sum-squared error because it is easy to optimize, however it does not perfectly align with our goal of
+maximizing average precision. To remedy this, they increase the loss from bounding box coordinate predictions and decrease the loss from confidence predictions for boxes that don’t contain objects. They use two parameters, $\lambda_{coord}}$ and $\lambda_{noobj}$ to accomplish this. They set $\lambda_{coord} = 5$ and $\lambda_{noobj} = .5$. To partially address this they predict the square root of the bounding box width and height instead of the width and height directly.
+
+\subsection{Results and discussions}
+YOLO imposes strong spatial constraints on bounding box predictions since each grid cell only predicts two boxes and can only have one class. This spatial constraint limits the number of nearby objects that our model can predict. Our model struggles with small objects that appear in groups, such as flocks of birds. 
+Since their model learns to predict bounding boxes from data, it struggles to generalize to objects in new or unusual aspect ratios or configurations. Their model also uses relatively coarse features for predicting bounding boxes since their architecture has multiple downsampling layers from the input image.
+Finally, while they train on a loss function that approximates detection performance, our loss function treats errors the same in small bounding boxes versus large bounding boxes. A small error in a large box is generally benign but a small error in a small box has a much greater effect on IOU.
+
+The recent Faster R-CNN replaces selective search with a neural network to propose bounding boxes, similar GoogLeNet. In their tests, their most accurate model achieves 7 fps while a smaller, less accurate one runs at 18 fps. The VGG-16 version of Faster R-CNN is 10 mAP higher but is also 6 times slower than YOLO. The ZFNet with Faster R-CNN is only 2.5 times slower than YOLO but is also less accurate.
+
+\begin{table}[htb]
+	\centering
+	\renewcommand{\arraystretch}{1.1}
+		\begin{tabular}{l r r r}
+			 & mAP & Combined   & Gain\\
+			\hline
+			Fast R-CNN & 71.8 & - & - \\
+			\hline
+			Fast R-CNN (2007 data) & \textbf{66.9} & 72.4 & .6 \\
+			Fast R-CNN (VGG-M) & 59.2 & 72.4 & .6 \\
+			Fast R-CNN (CaffeNet) & 57.1 & 72.1 & .3 \\
+			YOLO & 63.4 & \textbf{75.0} & \textbf{3.2} \\
+		\end{tabular}
+		\caption{\textbf{Table 2: Model combination experiments on VOC 2007.} They examine the effect of combining various models with the best version of Fast R-CNN provide only a small benefit while YOLO provides a significant performance boost.}
+	\label{Table_1}
+\end{table}
+
+The boost from YOLO is not simply a byproduct of model ensembling since there is little benefit from combining different versions of Fast R-CNN. Rather, it is precisely because YOLO makes different kinds of mistakes at test time that it is so effective at boosting Fast R-CNN’s performance.
+Unfortunately, this combination doesn’t benefit from the speed of YOLO since we run each model seperately and then combine the results. However, since YOLO is so fast, it doesn’t add any significant computational time compared to Fast R-CNN.
+
+
+\section{YOLO9000: Better, Faster, Stronger}
+\subsection{Paper main Theme}
+They introduce YOLO9000, a state-of-the-art, real-time object detection system that can detect over 9000 object categories. First we propose various improvements to the YOLO detection method, both novel and drawn from prior work. The improved model, YOLOv2, is state-of-the-art on standard detection tasks like PASCAL VOC and COCO. Using a novel, multi-scale training method the same YOLOv2 model can run at varying sizes, offering an easy tradeoff between speed and accuracy.
+At 40 FPS, YOLOv2 gets 78.6 mAP, outperforming state-of-the-art methods like Faster RCNN with ResNet and SSD while still running significantly faster. They propose a method to jointly train on object detection and classification. Using this method they train YOLO9000 simultaneously on the COCO detection dataset and the ImageNet classification dataset. YOLO can detect more than just 200 classes; it predicts detections for more than 9000 different object categories. And it still runs in real-time.
+
+They propose a new method to harness the large amount of classification data we already have and use it to expand the scope of current detection systems. Their method uses a hierarchical view of object classification that allows them to combine distinct datasets together.
+
+They also propose a joint training algorithm that allows them to train object detectors on both detection and classification data. Their method leverages labeled detection images to learn to precisely localize objects while it uses classification images to increase its vocabulary and robustness.
+
+YOLO suffers from a variety of shortcomings relative to state-of-the-art detection systems. Error analysis of YOLO compared to Fast R-CNN shows that YOLO makes a significant number of localization errors. Furthermore, YOLO has relatively low recall compared to region proposal-based methods. Thus they focus mainly on improving recall and localization while maintaining classification accuracy.
+
+\subsection{Papers main idea or proposed idea}
+Computer vision generally trends towards larger, deeper networks. Better performance often hinges on training larger networks or ensembling multiple models together. However, with YOLOv2 we want a more accurate detector that is still fast. Instead of scaling up their network, they simplify the network and then make the representation easier to learn. We pool a variety of ideas from past work with their own novel concepts to improve YOLO’s performance.
+
+\textbf{Batch Normalization.} Batch normalization leads to significant improvements in convergence while eliminating the
+need for other forms of regularization. By adding batch normalization on all of the convolutional layers in YOLO they get more than 2\% improvement in mAP.
+
+\textbf{High Resolution Classifier.}  The original YOLO trains the classifier network at 224 × 224 and increases the resolution to 448 for detection. For YOLOv2 we first fine tune the classification network at the full 448 × 448 resolution for 10 epochs on ImageNet. This gives the network time to adjust its filters to work better on higher resolution input. They then fine tune the resulting network on detection. This high resolution classification network gives us an increase of almost 4\% mAP.
+
+\textbf{Convolutional With Anchor Boxes.} YOLO predicts the coordinates of bounding boxes directly using fully connected layers on top of the convolutional feature extractor. Instead of predicting coordinates directly Faster R-CNN predicts bounding boxes using hand-picked priors. They remove the fully connected layers from YOLO and use anchor boxes to predict bounding boxes. When they move to anchor boxes they also decouple the class prediction mechanism from the spatial location and instead predict class and objectness for every anchor box.
+
+Using anchor boxes they get a small decrease in accuracy. YOLO only predicts 98 boxes per image but with anchor boxes their model predicts more than a thousand. Without anchor boxes their intermediate model gets 69.5 mAP with a recall of 81\%. With anchor boxes our model gets 69.2 mAP with a recall of 88\%.
+
+\textbf{Dimension Clusters.} They encounter two issues with anchor boxes when using them with YOLO. The first is that the box dimensions are hand picked. The network can learn to adjust the boxes appropriately but if they pick better priors for the network to start with we can make it easier for the network to learn to predict good detections.
+
+Instead of choosing priors by hand, they run k-means clustering on the training set bounding boxes to automatically find good priors. Thus for their distance metric we use:
+
+\begin{equation}
+	\label{equation2}
+	 d(box, centroid) \ = \ 1 - IOU(box, centroid) \\
+\end{equation}
+
+They run k-means for various values of k and plot the average IOU with closest centroid, see Figure \ref{fig.figure3}. They choose k = 5 as a good tradeoff between model complexity and high recall.
+
+\begin{figure}
+	\centering
+	\captionsetup{width=.9\linewidth}
+		\includegraphics[width=0.47\textwidth]{D:/lecture/ITpaper/Access-Template/figure3.eps}
+	\caption {\textbf{Clustering box dimensions on VOC and COCO.} They run k-means clustering on the dimensions of bounding boxes to get good priors for their model. The left image shows the average IOU they get with various choices for k. They find that k = 5 gives a good tradeoff for recall vs. complexity of the model. The right image shows the relative centroids for VOC and COCO. Both sets of priors favor thinner, taller boxes while COCO has greater variation in
+size than VOC.}
+	\label{fig:figure3}
+\end{figure}
+
+\subsection{Results and discussions}
+The SI unit for magnetic field strength $H$ is A/m. However, if you wish to use 
+units of T, either refer to magnetic flux density $B$ or magnetic field 
+strength symbolized as $\mu _{0}H$. Use the center dot to separate 
+compound units, e.g., ``A$\cdot $m$^{2}$.''
+
+\section{YOLOv3: An Incremental Improvement}
+\subsection{Paper main Theme}
+Use either SI (MKS) or CGS as primary units. (SI units are strongly 
+encouraged.) English units may be used as secondary units (in parentheses). 
+This applies to papers in data storage. For example, write ``15 
+Gb/cm$^{2}$ (100 Gb/in$^{2})$.'' An exception is when 
+\subsection{Papers main idea or proposed idea}
+English units are used as identifiers in trade, such as ``3\textonehalf-in 
+disk drive.'' Avoid combining SI and CGS units, such as current in amperes 
+and magnetic field in oersteds. This often leads to confusion because 
+equations do not balance dimensionally. If you must use mixed units, clearly 
+state the units for each quantity in an equation.
+\subsection{Results and discussions}
+The SI unit for magnetic field strength $H$ is A/m. However, if you wish to use 
+units of T, either refer to magnetic flux density $B$ or magnetic field 
+strength symbolized as $\mu _{0}H$. Use the center dot to separate 
+compound units, e.g., ``A$\cdot $m$^{2}$.''
+
+\section{SSD: Single Shot MultiBox Detector}
+\subsection{Paper main Theme}
+Use either SI (MKS) or CGS as primary units. (SI units are strongly 
+encouraged.) English units may be used as secondary units (in parentheses). 
+This applies to papers in data storage. For example, write ``15 
+Gb/cm$^{2}$ (100 Gb/in$^{2})$.'' An exception is when 
+\subsection{Papers main idea or proposed idea}
+English units are used as identifiers in trade, such as ``3\textonehalf-in 
+disk drive.'' Avoid combining SI and CGS units, such as current in amperes 
+and magnetic field in oersteds. This often leads to confusion because 
+equations do not balance dimensionally. If you must use mixed units, clearly 
+state the units for each quantity in an equation.
+\subsection{Results and discussions}
+The SI unit for magnetic field strength $H$ is A/m. However, if you wish to use 
+units of T, either refer to magnetic flux density $B$ or magnetic field 
+strength symbolized as $\mu _{0}H$. Use the center dot to separate 
+compound units, e.g., ``A$\cdot $m$^{2}$.''
+
+\section{MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications}
+\subsection{Paper main Theme}
+Use either SI (MKS) or CGS as primary units. (SI units are strongly 
+encouraged.) English units may be used as secondary units (in parentheses). 
+This applies to papers in data storage. For example, write ``15 
+Gb/cm$^{2}$ (100 Gb/in$^{2})$.'' An exception is when 
+\subsection{Papers main idea or proposed idea}
+English units are used as identifiers in trade, such as ``3\textonehalf-in 
+disk drive.'' Avoid combining SI and CGS units, such as current in amperes 
+and magnetic field in oersteds. This often leads to confusion because 
+equations do not balance dimensionally. If you must use mixed units, clearly 
+state the units for each quantity in an equation.
+\subsection{Results and discussions}
+The SI unit for magnetic field strength $H$ is A/m. However, if you wish to use 
+units of T, either refer to magnetic flux density $B$ or magnetic field 
+strength symbolized as $\mu _{0}H$. Use the center dot to separate 
+compound units, e.g., ``A$\cdot $m$^{2}$.''
+
+
+\section{Conclusion}
+A conclusion section is not required. Although a conclusion may review the 
+main points of the paper, do not replicate the abstract as the conclusion. A 
+conclusion might elaborate on the importance of the work or suggest 
+applications and extensions. 
+
+\begin{thebibliography}{00}
+
+\bibitem{b1} G. O. Young, ``Synthetic structure of industrial plastics,'' in \emph{Plastics,} 2\textsuperscript{nd} ed., vol. 3, J. Peters, Ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15--64.
+
+\bibitem{b2} W.-K. Chen, \emph{Linear Networks and Systems.} Belmont, CA, USA: Wadsworth, 1993, pp. 123--135.
+
+\bibitem{b3} J. U. Duncombe, ``Infrared navigation---Part I: An assessment of feasibility,'' \emph{IEEE Trans. Electron Devices}, vol. ED-11, no. 1, pp. 34--39, Jan. 1959, 10.1109/TED.2016.2628402.
+
+\bibitem{b4} E. P. Wigner, ``Theory of traveling-wave optical laser,'' \emph{Phys. Rev}., vol. 134, pp. A635--A646, Dec. 1965.
+
+\bibitem{b5} E. H. Miller, ``A note on reflector arrays,'' \emph{IEEE Trans. Antennas Propagat}., to be published.
+
+\end{thebibliography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in, height=1.25in,clip,keepaspectratio]{JHS2.eps}}]{Hyeon Seong Jeon}
+was born in Seoul, Korea in 1990. He received the B.E. degree in mass communication and journalism from Sungkyunkwan University (SKKU) Seoul, in 2017. In 2019, he joined the Department of Artificial Intelligence from Sunkyunkwan University, Suwon. His current research interests include A.I. and self-driving car using Deep learning.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{a2.png}}]{Second B. Author} was born in Greenwich Village, New York, NY, USA in 
+1977. He received the B.S. and M.S. degrees in aerospace engineering from 
+the University of Virginia, Charlottesville, in 2001 and the Ph.D. degree in 
+mechanical engineering from Drexel University, Philadelphia, PA, in 2008.
+
+From 2001 to 2004, he was a Research Assistant with the Princeton Plasma 
+Physics Laboratory. Since 2009, he has been an Assistant Professor with the 
+Mechanical Engineering Department, Texas A{\&}M University, College Station. 
+He is the author of three books, more than 150 articles, and more than 70 
+inventions. His research interests include high-pressure and high-density 
+nonthermal plasma discharge processes and applications, microscale plasma 
+discharges, discharges in liquids, spectroscopic diagnostics, plasma 
+propulsion, and innovation plasma applications. He is an Associate Editor of 
+the journal \emph{Earth, Moon, Planets}, and holds two patents. 
+
+Dr. Author was a recipient of the International Association of Geomagnetism 
+and Aeronomy Young Scientist Award for Excellence in 2008, and the IEEE 
+Electromagnetic Compatibility Society Best Symposium Paper Award in 2011. 
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{a3.png}}]{Third C. Author, Jr.} (M'87) received the B.S. degree in mechanical 
+engineering from National Chung Cheng University, Chiayi, Taiwan, in 2004 
+and the M.S. degree in mechanical engineering from National Tsing Hua 
+University, Hsinchu, Taiwan, in 2006. He is currently pursuing the Ph.D. 
+degree in mechanical engineering at Texas A{\&}M University, College 
+Station, TX, USA.
+
+From 2008 to 2009, he was a Research Assistant with the Institute of 
+Physics, Academia Sinica, Tapei, Taiwan. His research interest includes the 
+development of surface processing and biological/medical treatment 
+techniques using nonthermal atmospheric pressure plasmas, fundamental study 
+of plasma sources, and fabrication of micro- or nanostructured surfaces. 
+
+Mr. Author's awards and honors include the Frew Fellowship (Australian 
+Academy of Science), the I. I. Rabi Prize (APS), the European Frequency and 
+Time Forum Award, the Carl Zeiss Research Award, the William F. Meggers 
+Award and the Adolph Lomb Medal (OSA).
+\end{IEEEbiography}
+
+\EOD
+
+\end{document}
